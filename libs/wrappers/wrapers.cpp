@@ -10,101 +10,44 @@ AssignmentWrapper::AssignmentWrapper() {}
 
 AssignmentWrapper::AssignmentWrapper(Assignment assignment) : assignment_(assignment) {}
 
-std::string AssignmentWrapper::get_name()
-{
-    return assignment_.name();
-}
-
 int AssignmentWrapper::get_points()
 {
     return assignment_.points();
 }
 
-int AssignmentWrapper::get_awarded_points()
-{
-    if (assignment_.has_awarded_points())
-    {
-        return assignment_.awarded_points();
-    }
-    return NO_ASSIGNED_VAL;
-}
-
-// CategoryWrapper
-CategoryWrapper::CategoryWrapper() {}
-
-CategoryWrapper::CategoryWrapper(Category category) : category_(category)
-{
-    for (int i = 0; i < category.assignments_size(); i++)
-    {
-        AssignmentWrapper temp(category.assignments(i));
-        std::string name = temp.get_name();
-        std::pair<std::string, AssignmentWrapper> temp_pair(name, temp);
-        assignments_.insert(temp_pair);
-    }
-}
-
-std::string CategoryWrapper::get_name()
-{
-    return category_.name();
-}
-
-float CategoryWrapper::get_weight()
-{
-    return category_.weight();
-}
-
-int CategoryWrapper::get_points()
-{
-    if (category_.has_points())
-    {
-        return category_.points();
-    }
-    return NO_ASSIGNED_VAL;
-}
-
-int CategoryWrapper::get_awarded_points()
-{
-    if (category_.has_awarded_points())
-    {
-        return category_.awarded_points();
-    }
-    return NO_ASSIGNED_VAL;
-}
-
-AssignmentWrapper CategoryWrapper::get(std::string name) {
-    return assignments_[name];
-}
-
-void CategoryWrapper::update() {
-
+std::string AssignmentWrapper::get_name() {
+    return assignment_.name();
 }
 
 // ClassWrapper
 ClassWrapper::ClassWrapper() {}
 
-ClassWrapper::ClassWrapper(Class clss) : clss_(clss) {/* empty for now */}
-
-std::string ClassWrapper::get_name()
+ClassWrapper::ClassWrapper(Class clss) : clss_(clss)
 {
-    return clss_.name();
+    for(int i = 0; i < clss_.assignments_size(); i++) {
+        AssignmentWrapper assignment(clss_.assignments(i));
+        assignments_[assignment.get_name()] = assignment;
+    }
 }
 
-float ClassWrapper::get_grade()
+float ClassWrapper::get_gpa()
 {
-    if (clss_.has_grade())
+    if (clss_.has_gpa())
     {
-        return clss_.grade();
+        return clss_.gpa();
     }
     return NO_ASSIGNED_VAL;
 }
+
+AssignmentWrapper ClassWrapper::get_assignment(std::string name) {
+    return assignments_[name];
+}
+
+
 // QuarterWrapper
 QuarterWrapper::QuarterWrapper() {}
 
 QuarterWrapper::QuarterWrapper(Quarter quarter) : quarter_(quarter) {/* empty for now */}
-std::string QuarterWrapper::get_date()
-{
-    return quarter_.date();
-}
 
 float QuarterWrapper::get_gpa()
 {
@@ -114,19 +57,15 @@ float QuarterWrapper::get_gpa()
     }
     return NO_ASSIGNED_VAL;
 }
+
+ClassWrapper QuarterWrapper::get_class(std::string name) {
+    return classes_[name];
+}
+
 // SchoolWrapper
 SchoolWrapper::SchoolWrapper() {}
 
 SchoolWrapper::SchoolWrapper(School school) : school_(school) {}
-
-std::string SchoolWrapper::get_date()
-{
-    if (school_.has_date())
-    {
-        return school_.date();
-    }
-    return std::to_string(NO_ASSIGNED_VAL);
-}
 
 float SchoolWrapper::get_gpa()
 {
@@ -135,4 +74,8 @@ float SchoolWrapper::get_gpa()
         return school_.gpa();
     }
     return NO_ASSIGNED_VAL;
+}
+
+QuarterWrapper SchoolWrapper::get_quarter(std::string name) {
+    return quarters_[name];
 }

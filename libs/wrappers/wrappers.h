@@ -14,30 +14,11 @@ class AssignmentWrapper
 public:
     AssignmentWrapper();
     AssignmentWrapper(Assignment assignment);
-    std::string get_name();
     int get_points();
-    int get_awarded_points(); // returns NO_ASSIGNED_VAL if value was not assigned
-    void update();
+    std::string get_name();
+
 private:
     Assignment assignment_;
-};
-
-class CategoryWrapper
-{
-public:
-    CategoryWrapper();
-    CategoryWrapper(Category cat);
-    std::string get_name();
-    float get_weight();
-    int get_points();         // returns NO_ASSIGNED_VAL if value was not assigned
-    int get_awarded_points(); // returns NO_ASSIGNED_VAL if value was not assigned
-    AssignmentWrapper get(std::string);
-    void update();
-    void add();
-    void del(std::string assignment);
-private:
-    Category category_;
-    std::unordered_map<std::string, AssignmentWrapper> assignments_;
 };
 
 class ClassWrapper
@@ -45,15 +26,13 @@ class ClassWrapper
 public:
     ClassWrapper();
     ClassWrapper(Class clss);
+    float get_gpa(); // returns NO_ASSIGNED_VAL if value was not assigned
     std::string get_name();
-    float get_grade(); // returns NO_ASSIGNED_VAL if value was not assigned
-    CategoryWrapper get(std::string);
-    void update();
-    void add();
-    void del(std::string category);
+    AssignmentWrapper get_assignment(std::string);
+
 private:
     Class clss_;
-    std::unordered_map<std::string, CategoryWrapper> categories_;
+    std::unordered_map<std::string, AssignmentWrapper> assignments_;
 };
 
 class QuarterWrapper
@@ -61,12 +40,9 @@ class QuarterWrapper
 public:
     QuarterWrapper();
     QuarterWrapper(Quarter quarter);
-    std::string get_date();
     float get_gpa(); // returns NO_ASSIGNED_VAL if value was not assigned
-    ClassWrapper get(std::string);
-    void update();
-    void add();
-    void del(std::string clss);
+    ClassWrapper get_class(std::string);
+
 private:
     Quarter quarter_;
     std::unordered_map<std::string, ClassWrapper> classes_;
@@ -77,14 +53,12 @@ class SchoolWrapper
 public:
     SchoolWrapper();
     SchoolWrapper(School school);
-    std::string get_date(); // returns NO_ASSIGNED_VAL if value was not assigned
-    float get_gpa();        // returns NO_ASSIGNED_VAL if value was not assigned
-    QuarterWrapper get(std::string);
-    void update();
-    void add();
-    void del(std::string quarter);
+    float get_gpa(); // returns NO_ASSIGNED_VAL if value was not assigned
+    QuarterWrapper get_quarter(std::string);
+
 private:
     School school_;
     std::unordered_map<std::string, QuarterWrapper> quarters_;
 };
+
 #endif // GRADESYSTEM_WRAPPERS_WRAPPERS_H_
