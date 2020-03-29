@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package class_system;
+
+message Assignment {
+    required string name = 1;
+    required int32 points = 2;
+    required float weight = 3;
+    optional int32 awarded_points = 4;
+}
+
+message Class {
+    required string name = 1;
+    optional float gpa = 2;
+    repeated int32 points_per_cat = 3;
+    repeated Assignment assignments = 4;
+    repeated float categories = 5;
+}
+
+message Quarter {
+    required string date = 1;
+    optional float gpa = 2;
+    repeated Class classes = 3;
+}
+
+message School {
+    optional string date = 1;
+    optional float gpa = 2;
+    repeated Quarter quarters = 3;
+}

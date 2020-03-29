@@ -1,0 +1,2 @@
+/usr/bin/ar qc libclass_system.a  CMakeFiles/class_system.dir/class_system.pb.cc.o
+/usr/bin/ranlib libclass_system.a

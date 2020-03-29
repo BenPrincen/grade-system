@@ -1,0 +1,3 @@
+# change test_class_system to class_system when finished testing proto files
+# command for compiling the proto file
+protoc -I=proto --cpp_out=libs/class_system proto/class_system.proto
